@@ -1,0 +1,39 @@
+# -------------------
+# Go
+# -------------------
+/bin/
+/build/
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Go modules
+/vendor/
+*.modcache
+
+# -------------------
+# IDEs / редакторы
+# -------------------
+.vscode/
+.idea/
+*.iml
+.DS_Store
+
+# -------------------
+# Docker / PostgreSQL
+# -------------------
+/postgres-data/
+docker-compose.override.yml
+*.log
+
+# -------------------
+# Конфиги и секреты
+# -------------------
+/config/config.yml
+.env
+
+# -------------------
+# Migrations (необязательно игнорировать, но можно игнорировать временные файлы)
+/migrations/*-tmp.sql
