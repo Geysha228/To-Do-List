@@ -1,12 +1,14 @@
 package repository
 
 import (
+	"context"
+
 	"github.com/Geysha228/To-Do-List/internal/models"
 	"gorm.io/gorm"
 )
 
 type TaskRepositoryInterface interface {
-	GetTodayTasksByUser(UserID int) ([]models.Task, error)
+	GetTodayTasksByUser(ctx context.Context, UserID int) ([]models.Task, error)
 }
 
 type TaskRepository struct {
@@ -17,9 +19,10 @@ func NewTaskRepository(database *gorm.DB) *TaskRepository {
 	return &TaskRepository{db: database}
 }
 
-func (r *TaskRepository) GetTodayTasksByUser(UserID int) ([]models.Task, error) {
+func (r *TaskRepository) GetTodayTasksByUser(ctx context.Context, UserID int) ([]models.Task, error) {
 	var tasks []models.Task
-	err := r.db.Where("creator_id = ? AND DATE(date_of_remind) = CURRENT_DATE", UserID).
+	err := r.db.WithContext(ctx).
+		Where("creator_id = ? AND DATE(date_of_remind) = CURRENT_DATE", UserID).
 		Find(&tasks).Error
 	if err != nil {
 		return nil, err

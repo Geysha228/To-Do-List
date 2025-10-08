@@ -1,6 +1,7 @@
 package repository
 
 import (
+	"context"
 	"testing"
 	"time"
 
@@ -31,7 +32,9 @@ func TestGetTodayTasksByUser(t *testing.T) {
 
 	repo := NewTaskRepository(db)
 
-	tasks, err := repo.GetTodayTasksByUser(1)
+	ctx := context.Background()
+
+	tasks, err := repo.GetTodayTasksByUser(ctx, 1)
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
