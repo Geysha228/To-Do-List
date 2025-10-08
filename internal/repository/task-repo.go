@@ -6,7 +6,7 @@ import (
 )
 
 type TaskRepositoryInterface interface {
-	GetTasks() ([]models.Task, error)
+	GetTodayTasksByUser(UserID int) ([]models.Task, error)
 }
 
 type TaskRepository struct {
@@ -17,15 +17,12 @@ func NewTaskRepository(database *gorm.DB) *TaskRepository {
 	return &TaskRepository{db: database}
 }
 
-func (r *TaskRepository) GetTasks() ([]models.Task, error) {
+func (r *TaskRepository) GetTodayTasksByUser(UserID int) ([]models.Task, error) {
 	var tasks []models.Task
-	err := r.db.Find(&tasks).Error
+	err := r.db.Where("creator_id = ? AND DATE(date_of_remind) = CURRENT_DATE", UserID).
+		Find(&tasks).Error
 	if err != nil {
 		return nil, err
 	}
 	return tasks, nil
-}
-
-func (r *TaskRepository) CreateTask(task models.Task) error {
-
 }
