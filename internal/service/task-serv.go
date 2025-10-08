@@ -1,12 +1,14 @@
 package service
 
 import (
+	"context"
+
 	"github.com/Geysha228/To-Do-List/internal/models"
 	"github.com/Geysha228/To-Do-List/internal/repository"
 )
 
 type TaskServiceInterface interface {
-	GetAllTasks() ([]models.Task, error)
+	GetAllTasksTodayByUser(ctx context.Context, userID int) ([]models.Task, error)
 }
 
 type TaskService struct {
@@ -17,6 +19,6 @@ func NewTaskService(repository repository.TaskRepositoryInterface) *TaskService 
 	return &TaskService{repo: repository}
 }
 
-func (s *TaskService) GetAllTasks() ([]models.Task, error) {
-	return s.repo.GetTasks()
+func (s *TaskService) GetAllTasksTodayByUser(ctx context.Context, userID int) ([]models.Task, error) {
+	return s.repo.GetTodayTasksByUser(ctx, userID)
 }
